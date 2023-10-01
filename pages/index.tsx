@@ -12,31 +12,52 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { FieldValues, useForm } from "react-hook-form";
+import { LoginSchema, loginSchema } from "@/lib/types";
 import { resolve } from "path";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
     reset,
-    getValues,
-  } = useForm();
+  } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = async (data: FieldValues) => {
-    //send to server
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    reset();
+  const onSubmit = async (data: LoginSchema) => {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      alert("Submitting form failed");
+      return;
+    }
+    if (responseData.errors) {
+      const errors = responseData.errors;
+      if (errors.username) {
+        setError("username", {
+          type: "server",
+          message: errors.username,
+        });
+      } else if (errors.password) {
+        setError("password", {
+          type: "server",
+          message: errors.password,
+        });
+      } else {
+        alert("Something went wrong");
+      }
+    }
+    // reset();
   };
 
   return (
@@ -62,7 +83,7 @@ export default function Login() {
             sx={{ mt: 1 }}
           >
             <TextField
-              {...register("username", { required: "Username is required" })}
+              {...register("username")}
               margin="normal"
               fullWidth
               id="username"
@@ -72,7 +93,7 @@ export default function Login() {
               autoFocus
             />
             <TextField
-              {...register("password", { required: "Password is required" })}
+              {...register("password")}
               margin="normal"
               fullWidth
               name="password"
