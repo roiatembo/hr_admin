@@ -1,20 +1,22 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { FieldValues, useForm } from "react-hook-form";
-import { LoginSchema, loginSchema } from "@/lib/types";
-import { resolve } from "path";
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  CssBaseline,
+  FormControlLabel,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginSchema } from "@/lib/types";
+import { NextRouter, useRouter } from "next/router";
 
 const defaultTheme = createTheme();
 
@@ -24,40 +26,49 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-    reset,
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
+  const router: NextRouter = useRouter();
 
   const onSubmit = async (data: LoginSchema) => {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      // const response = await fetch("/api/login/route", {
+      //   method: "POST",
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
 
-    const responseData = await response.json();
-    if (!response.ok) {
-      alert("Submitting form failed");
-      return;
+      // const responseData = await response.json();
+
+      // if (!response.ok) {
+      //   throw new Error(responseData.message || "Submitting form failed");
+      // }
+
+      // if (responseData.errors) {
+      //   const errors = responseData.errors;
+      //   if (errors.username) {
+      //     setError("username", {
+      //       type: "server",
+      //       message: errors.username,
+      //     });
+      //   } else if (errors.password) {
+      //     setError("password", {
+      //       type: "server",
+      //       message: errors.password,
+      //     });
+      //   } else {
+      //     throw new Error("Unknown server error");
+      //   }
+      // } else {
+      //   //handle successful login
+      //   console.log("are we here");
+      //   router.push("/employees");
+      // }
+      router.push("/employees");
+    } catch (error) {
+      console.error("This motherfucker:", error);
     }
-    if (responseData.errors) {
-      const errors = responseData.errors;
-      if (errors.username) {
-        setError("username", {
-          type: "server",
-          message: errors.username,
-        });
-      } else if (errors.password) {
-        setError("password", {
-          type: "server",
-          message: errors.password,
-        });
-      } else {
-        alert("Something went wrong");
-      }
-    }
-    // reset();
   };
 
   return (
@@ -100,13 +111,17 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="password"
+              autoComplete="current-password" // Use "current-password" for password fields
             />
             {errors.username && (
-              <Typography>{`${errors.username.message}`}</Typography>
+              <Typography variant="body2" color="error">
+                {errors.username.message}
+              </Typography>
             )}
             {errors.password && (
-              <Typography>{`${errors.password.message}`}</Typography>
+              <Typography variant="body2" color="error">
+                {errors.password.message}
+              </Typography>
             )}
             <Button
               disabled={isSubmitting}
