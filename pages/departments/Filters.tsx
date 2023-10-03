@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Title from "../components/Title";
+import Title from "./Title";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
