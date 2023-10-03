@@ -17,10 +17,8 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Filter from "./Filters";
-import Deposits from "./Deposits";
-import Employees from "./Employees";
 import SideBar from "../components/Sidebar";
-import CreateEmployee from "./CreateEmployee";
+import CreateDepartment from "./CreateDepartment";
 
 const defaultTheme = createTheme();
 
@@ -54,7 +52,7 @@ export default function Dashboard() {
                     flexDirection: "column",
                   }}
                 >
-                  <CreateEmployee />
+                  <CreateDepartment />
                 </Paper>
               </Grid>
             </Grid>

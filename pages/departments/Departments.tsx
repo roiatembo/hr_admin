@@ -85,7 +85,7 @@ function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-export default function Employees() {
+export default function Departments() {
   return (
     <React.Fragment>
       <Grid container spacing={12}>
@@ -133,10 +133,7 @@ export default function Employees() {
         <TableHead>
           <TableRow>
             <TableCell>Actions</TableCell>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
-            <TableCell>Telephone Number</TableCell>
-            <TableCell align="right">Email Address</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell>Manager</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
@@ -148,7 +145,6 @@ export default function Employees() {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.shipTo}</TableCell>
               <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>

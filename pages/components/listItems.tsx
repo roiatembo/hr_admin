@@ -10,7 +10,7 @@ import Link from "@mui/material/Link";
 
 export const mainListItems = (
   <React.Fragment>
-    <Link href="./employees" underline="none" color="inherit">
+    <Link href="/employees" underline="none" color="inherit">
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
@@ -18,13 +18,15 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItemButton>
     </Link>
-    <ListItemButton>
-      <ListItemIcon>
-        <WorkIcon />
-      </ListItemIcon>
-      <ListItemText primary="Departments" />
-    </ListItemButton>
-    <Link href="./employees/create" underline="none" color="inherit">
+    <Link href="/departments" underline="none" color="inherit">
+      <ListItemButton>
+        <ListItemIcon>
+          <WorkIcon />
+        </ListItemIcon>
+        <ListItemText primary="Departments" />
+      </ListItemButton>
+    </Link>
+    <Link href="/employees/create" underline="none" color="inherit">
       <ListItemButton>
         <ListItemIcon>
           <PeopleIcon />
@@ -32,11 +34,13 @@ export const mainListItems = (
         <ListItemText primary="Create/Edit Employee" />
       </ListItemButton>
     </Link>
-    <ListItemButton>
-      <ListItemIcon>
-        <WorkHistoryIcon />
-      </ListItemIcon>
-      <ListItemText primary="Create/Edit Departments" />
-    </ListItemButton>
+    <Link href="/departments/create" underline="none" color="inherit">
+      <ListItemButton>
+        <ListItemIcon>
+          <WorkHistoryIcon />
+        </ListItemIcon>
+        <ListItemText primary="Create/Edit Departments" />
+      </ListItemButton>
+    </Link>
   </React.Fragment>
 );

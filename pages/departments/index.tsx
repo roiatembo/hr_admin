@@ -17,8 +17,7 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Filter from "./Filters";
-import Deposits from "./Deposits";
-import Employees from "./Employees";
+import Departments from "./Departments";
 import SideBar from "../components/Sidebar";
 
 function Copyright(props: any) {
@@ -70,17 +69,16 @@ export default function Dashboard() {
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 320,
                   }}
                 >
                   <Filter />
                 </Paper>
               </Grid>
 
-              {/* Employee list */}
+              {/* Department list */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Employees />
+                  <Departments />
                 </Paper>
               </Grid>
             </Grid>
