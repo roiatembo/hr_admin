@@ -20,6 +20,8 @@ import Filter from "./Filters";
 import Deposits from "./Deposits";
 import Employees from "./Employees";
 import SideBar from "../components/Sidebar";
+import { GetServerSideProps, NextPage } from "next";
+import { parseCookies } from "nookies";
 
 function Copyright(props: any) {
   return (
@@ -39,10 +41,8 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
-
-export default function Dashboard() {
+const Dashboard: NextPage = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -90,4 +90,22 @@ export default function Dashboard() {
       </Box>
     </ThemeProvider>
   );
-}
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = parseCookies(context);
+  if (!token) {
+    // If the user is not authenticated, redirect to the login page
+    return {
+      redirect: {
+        destination: "../",
+        permanent: false,
+      },
+    };
+  }
+
+  // If the user is authenticated, return an empty object
+  return { props: {} };
+};
+
+export default Dashboard;

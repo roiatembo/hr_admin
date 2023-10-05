@@ -17,12 +17,16 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Filter from "./Filters";
+import Deposits from "./Deposits";
+import Employees from "./Employees";
 import SideBar from "../components/Sidebar";
-import EditDepartment from "./EditDepartment";
+import { GetServerSideProps, NextPage } from "next";
+import { parseCookies } from "nookies";
+import EditEmployee from "./EditEmployee";
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+const Create: NextPage = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -52,7 +56,7 @@ export default function Dashboard() {
                     flexDirection: "column",
                   }}
                 >
-                  <EditDepartment />
+                  <EditEmployee />
                 </Paper>
               </Grid>
             </Grid>
@@ -61,4 +65,22 @@ export default function Dashboard() {
       </Box>
     </ThemeProvider>
   );
-}
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = parseCookies(context);
+  if (!token) {
+    // If the user is not authenticated, redirect to the login page
+    return {
+      redirect: {
+        destination: "../",
+        permanent: false,
+      },
+    };
+  }
+
+  // If the user is authenticated, return an empty object
+  return { props: {} };
+};
+
+export default Create;

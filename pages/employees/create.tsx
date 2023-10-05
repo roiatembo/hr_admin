@@ -21,10 +21,12 @@ import Deposits from "./Deposits";
 import Employees from "./Employees";
 import SideBar from "../components/Sidebar";
 import CreateEmployee from "./CreateEmployee";
+import { GetServerSideProps, NextPage } from "next";
+import { parseCookies } from "nookies";
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+const Create: NextPage = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -63,4 +65,22 @@ export default function Dashboard() {
       </Box>
     </ThemeProvider>
   );
-}
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = parseCookies(context);
+  if (!token) {
+    // If the user is not authenticated, redirect to the login page
+    return {
+      redirect: {
+        destination: "../",
+        permanent: false,
+      },
+    };
+  }
+
+  // If the user is authenticated, return an empty object
+  return { props: {} };
+};
+
+export default Create;

@@ -19,10 +19,30 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Filter from "./Filters";
 import SideBar from "../components/Sidebar";
 import CreateDepartment from "./CreateDepartment";
+import clientPromise from "@/lib/mongodb";
+import { LoginSchema } from "@/lib/types";
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+const insertDB = async (data: LoginSchema) => {
+  try {
+    const response = await fetch("/api/insert", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+let doc = { username: "user", password: "pass" };
+insertDB(doc);
+
+export default function Create() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>

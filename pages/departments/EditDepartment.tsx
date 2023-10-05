@@ -8,12 +8,12 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 
-export default function CreateDepartment() {
+export default function EditDepartment() {
   const theme = useTheme();
 
   return (
     <React.Fragment>
-      <Title>Create/Edit Departments</Title>
+      <Title>Edit Departments</Title>
       <Box
         component="form"
         // onSubmit={handleSubmit(onSubmit)}

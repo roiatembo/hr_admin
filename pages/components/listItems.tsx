@@ -31,7 +31,7 @@ export const mainListItems = (
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Create/Edit Employee" />
+        <ListItemText primary="Create Employee" />
       </ListItemButton>
     </Link>
     <Link href="/departments/create" underline="none" color="inherit">
@@ -39,7 +39,7 @@ export const mainListItems = (
         <ListItemIcon>
           <WorkHistoryIcon />
         </ListItemIcon>
-        <ListItemText primary="Create/Edit Departments" />
+        <ListItemText primary="Create Departments" />
       </ListItemButton>
     </Link>
   </React.Fragment>

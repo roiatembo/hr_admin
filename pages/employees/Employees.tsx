@@ -11,6 +11,18 @@ import NativeSelect from "@mui/material/NativeSelect";
 import Grid from "@mui/material/Grid";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+let totalResults = 10;
+async function reload() {
+  await queryClient.refetchQueries({ queryKey: ["repoData"] });
+  console.log("reloaded", totalResults);
+}
 
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -95,16 +107,21 @@ export default function Employees() {
               Show per Page
             </InputLabel>
             <NativeSelect
-              defaultValue={30}
+              defaultValue={10}
               inputProps={{
-                name: "age",
+                name: "numResults",
                 id: "uncontrolled-native",
+              }}
+              onChange={(event: object) => {
+                totalResults = event.target.value;
+                console.log(totalResults);
+                reload();
               }}
             >
               <option value={10}>10</option>
               <option value={20}>20</option>
-              <option value={30}>50</option>
-              <option value={30}>100</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
               <option value={30}>All</option>
             </NativeSelect>
           </FormControl>
@@ -136,26 +153,71 @@ export default function Employees() {
             <TableCell>First Name</TableCell>
             <TableCell>Last Name</TableCell>
             <TableCell>Telephone Number</TableCell>
-            <TableCell align="right">Email Address</TableCell>
+            <TableCell>Email Address</TableCell>
             <TableCell>Manager</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <QueryClientProvider client={queryClient}>
+          <AllEmployees />
+        </QueryClientProvider>
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
       </Link>
     </React.Fragment>
+  );
+}
+
+interface ManagerNameProps {
+  managerID: string;
+}
+
+interface ResultsProps {
+  numResults: number;
+}
+
+function ManagerName({ managerID }: ManagerNameProps) {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["managerData", managerID],
+    queryFn: () =>
+      fetch("/api/manager?managerID=" + managerID).then((res) => res.json()),
+  });
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: ";
+
+  return <TableCell>{data.fullName}</TableCell>;
+}
+
+function AllEmployees() {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: () => fetch("/api/employees").then((res) => res.json()),
+  });
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: ";
+  let limitedData = data.slice(0, totalResults);
+  return (
+    <TableBody>
+      {limitedData.map((employee: any) => (
+        <TableRow key={employee._id}>
+          <TableCell>Edit Deactivate</TableCell>
+          <TableCell>{employee.firstName}</TableCell>
+          <TableCell>{employee.lastName}</TableCell>
+          <TableCell>{employee.telephoneNumber}</TableCell>
+          <TableCell>{employee.emailAddres}</TableCell>
+
+          <QueryClientProvider client={queryClient}>
+            <ManagerName managerID={employee.employeeManager} />
+          </QueryClientProvider>
+
+          <TableCell>{employee.status}</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
   );
 }

@@ -31,43 +31,22 @@ export default function Login() {
 
   const onSubmit = async (data: LoginSchema) => {
     try {
-      // const response = await fetch("/api/login/route", {
-      //   method: "POST",
-      //   body: JSON.stringify(data),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-
-      // const responseData = await response.json();
-
-      // if (!response.ok) {
-      //   throw new Error(responseData.message || "Submitting form failed");
-      // }
-
-      // if (responseData.errors) {
-      //   const errors = responseData.errors;
-      //   if (errors.username) {
-      //     setError("username", {
-      //       type: "server",
-      //       message: errors.username,
-      //     });
-      //   } else if (errors.password) {
-      //     setError("password", {
-      //       type: "server",
-      //       message: errors.password,
-      //     });
-      //   } else {
-      //     throw new Error("Unknown server error");
-      //   }
-      // } else {
-      //   //handle successful login
-      //   console.log("are we here");
-      //   router.push("/employees");
-      // }
+      const response = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message || "Submitting form failed");
+      }
+      const { token } = responseData;
+      localStorage.setItem("token", token);
       router.push("/employees");
     } catch (error) {
-      console.error("This motherfucker:", error);
+      console.error(error);
     }
   };
 
@@ -111,7 +90,7 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password" // Use "current-password" for password fields
+              autoComplete="current-password"
             />
             {errors.username && (
               <Typography variant="body2" color="error">
