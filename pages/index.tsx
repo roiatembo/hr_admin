@@ -5,12 +5,8 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   CssBaseline,
-  FormControlLabel,
-  Grid,
-  Link,
   TextField,
   Typography,
 } from "@mui/material";
@@ -29,6 +25,7 @@ export default function Login() {
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
   const router: NextRouter = useRouter();
 
+  // Function to handle form submission
   const onSubmit = async (data: LoginSchema) => {
     try {
       const response = await fetch("/api/login", {
@@ -39,14 +36,28 @@ export default function Login() {
         },
       });
       const responseData = await response.json();
+
+      // If response is not okay, throw an error
       if (!response.ok) {
         throw new Error(responseData.message || "Submitting form failed");
       }
+
+      // Extract token from response data and store it in local storage
       const { token } = responseData;
       localStorage.setItem("token", token);
+
+      // Redirect to the employees page after successful login
       router.push("/employees");
     } catch (error) {
-      console.error(error);
+      // Handle errors, for example, display an error message to the user
+      setError("username", {
+        type: "manual",
+        message: "Invalid username",
+      });
+      setError("password", {
+        type: "manual",
+        message: "Invalid password",
+      });
     }
   };
 
@@ -72,6 +83,7 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
+            {/* Input fields for username and password */}
             <TextField
               {...register("username")}
               margin="normal"
@@ -92,6 +104,7 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
+            {/* Display error messages for username and password fields */}
             {errors.username && (
               <Typography variant="body2" color="error">
                 {errors.username.message}
@@ -102,6 +115,7 @@ export default function Login() {
                 {errors.password.message}
               </Typography>
             )}
+            {/* Submit button */}
             <Button
               disabled={isSubmitting}
               type="submit"
