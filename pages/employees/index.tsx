@@ -22,6 +22,8 @@ import Employees from "./Employees";
 import SideBar from "../components/Sidebar";
 import { GetServerSideProps, NextPage } from "next";
 import { parseCookies } from "nookies";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
 
 function Copyright(props: any) {
   return (
@@ -80,7 +82,9 @@ const Dashboard: NextPage = () => {
               {/* Employee list */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Employees />
+                  <QueryClientProvider client={queryClient}>
+                    <Employees />
+                  </QueryClientProvider>
                 </Paper>
               </Grid>
             </Grid>

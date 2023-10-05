@@ -16,6 +16,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import GetEmployees from "./GetEmployees";
 
 const queryClient = new QueryClient();
 let totalResults = 10;
@@ -158,9 +159,7 @@ export default function Employees() {
             <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
-        <QueryClientProvider client={queryClient}>
-          <AllEmployees />
-        </QueryClientProvider>
+        <GetEmployees />
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
