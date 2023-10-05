@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Title from "../components/Title";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 
@@ -32,10 +31,10 @@ export default function EditDepartment() {
           autoFocus
         />
         <FormControl sx={{ mt: 4 }} size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Manager</InputLabel>
+          <InputLabel id="select-label">Manager</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="select-label"
+            id="simple-select"
             value="manager"
             label="Manager"
             // onChange={handleChange}
@@ -46,10 +45,10 @@ export default function EditDepartment() {
           </Select>
         </FormControl>
         <FormControl sx={{ mt: 4 }} size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Status</InputLabel>
+          <InputLabel id="simple-select-label">Status</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="simple-select-label"
+            id="simple-select"
             value="status"
             label="Status"
             // onChange={handleChange}
