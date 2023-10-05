@@ -1,16 +1,18 @@
 import * as React from "react";
-import Link from "@mui/material/Link";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import NativeSelect from "@mui/material/NativeSelect";
-import Grid from "@mui/material/Grid";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
+import {
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  FormControl,
+  InputLabel,
+  NativeSelect,
+  Grid,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 import {
   QueryClient,
   QueryClientProvider,
@@ -18,27 +20,11 @@ import {
 } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
-let totalResults = 10;
-async function reload() {
-  await queryClient.refetchQueries({ queryKey: ["repoData"] });
-  console.log("reloaded", totalResults);
-}
+const RESULTS_OPTIONS = [10, 20, 50, 100, "All"]; // Available options for results per page
 
-const top100Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: "Pulp Fiction", year: 1994 },
-  {
-    title: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-];
+let totalResults = 10; // Total number of results to display, initialized to 10
 
-// Generate Order Data
+// Function to create an order data row
 function createData(
   id: number,
   date: string,
@@ -50,89 +36,60 @@ function createData(
   return { id, date, name, shipTo, paymentMethod, amount };
 }
 
-const rows = [
-  createData(
-    0,
-    "16 Mar, 2019",
-    "Elvis Presley",
-    "Tupelo, MS",
-    "VISA ⠀•••• 3719",
-    312.44
-  ),
-  createData(
-    1,
-    "16 Mar, 2019",
-    "Paul McCartney",
-    "London, UK",
-    "VISA ⠀•••• 2574",
-    866.99
-  ),
-  createData(
-    2,
-    "16 Mar, 2019",
-    "Tom Scholz",
-    "Boston, MA",
-    "MC ⠀•••• 1253",
-    100.81
-  ),
-  createData(
-    3,
-    "16 Mar, 2019",
-    "Michael Jackson",
-    "Gary, IN",
-    "AMEX ⠀•••• 2000",
-    654.39
-  ),
-  createData(
-    4,
-    "15 Mar, 2019",
-    "Bruce Springsteen",
-    "Long Branch, NJ",
-    "VISA ⠀•••• 5919",
-    212.79
-  ),
-];
-
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
 export default function Employees() {
+  const [numResults, setNumResults] = React.useState<number>(10); // State to store the number of results per page
+
+  // Event handler for changing the number of results per page
+  const handleResultsChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setNumResults(event.target.value as number);
+    reload();
+  };
+
+  // Function to reload data based on new settings
+  const reload = async () => {
+    await queryClient.refetchQueries({ queryKey: ["repoData"] });
+  };
+
   return (
     <React.Fragment>
       <Grid container spacing={12}>
+        {/* Grid items for the Show per Page selector and Search bar */}
         <Grid item xs={6} md={6}>
+          {/* Show per Page Selector */}
           <FormControl sx={{ width: 1 / 4, mb: 2 }} size="small">
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+            <InputLabel variant="standard" htmlFor="results-select">
               Show per Page
             </InputLabel>
             <NativeSelect
-              defaultValue={10}
+              value={numResults}
               inputProps={{
                 name: "numResults",
-                id: "uncontrolled-native",
+                id: "results-select",
               }}
-              onChange={(event: object) => {
-                totalResults = event.target.value;
-                console.log(totalResults);
-                reload();
-              }}
+              onChange={handleResultsChange}
             >
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-              <option value={30}>All</option>
+              {RESULTS_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
             </NativeSelect>
           </FormControl>
         </Grid>
         <Grid item xs={4} md={4}>
-          <Autocomplete
+          {/* Search Bar */}
+          {/* <Autocomplete
             freeSolo
             id="free-solo-2-demo"
             disableClearable
             size="small"
-            options={top100Films.map((option) => option.title)}
+            options={.map((option) => option.title)}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -143,11 +100,14 @@ export default function Employees() {
                 }}
               />
             )}
-          />
+          /> */}
+          ;
         </Grid>
       </Grid>
+      {/* Table to display employee data */}
       <Table size="small">
         <TableHead>
+          {/* Table headers */}
           <TableRow>
             <TableCell>Actions</TableCell>
             <TableCell>First Name</TableCell>
@@ -158,12 +118,14 @@ export default function Employees() {
             <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
+        {/* QueryClientProvider to manage API data */}
         <QueryClientProvider client={queryClient}>
           <AllEmployees />
         </QueryClientProvider>
       </Table>
+      {/* Link to view more data */}
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more orders
+        See more
       </Link>
     </React.Fragment>
   );
@@ -171,10 +133,6 @@ export default function Employees() {
 
 interface ManagerNameProps {
   managerID: string;
-}
-
-interface ResultsProps {
-  numResults: number;
 }
 
 function ManagerName({ managerID }: ManagerNameProps) {
@@ -203,14 +161,18 @@ function AllEmployees() {
   let limitedData = data.slice(0, totalResults);
   return (
     <TableBody>
+      {/* Render employee data rows */}
       {limitedData.map((employee: any) => (
         <TableRow key={employee._id}>
-          <TableCell>Edit Deactivate</TableCell>
+          <TableCell>
+            <Link href="/employees/edit">Edit</Link> Deactivate
+          </TableCell>
           <TableCell>{employee.firstName}</TableCell>
           <TableCell>{employee.lastName}</TableCell>
           <TableCell>{employee.telephoneNumber}</TableCell>
           <TableCell>{employee.emailAddres}</TableCell>
 
+          {/* Component to fetch and display manager's name */}
           <QueryClientProvider client={queryClient}>
             <ManagerName managerID={employee.employeeManager} />
           </QueryClientProvider>

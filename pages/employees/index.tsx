@@ -1,47 +1,24 @@
-import * as React from "react";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import React from "react";
+import {
+  createTheme,
+  ThemeProvider,
+  Box,
+  Toolbar,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  Link,
+} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import MuiDrawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Filter from "./Filters";
-import Deposits from "./Deposits";
-import Employees from "./Employees";
 import SideBar from "../components/Sidebar";
+import Filter from "./Filters";
+import Employees from "./Employees";
 import { GetServerSideProps, NextPage } from "next";
 import { parseCookies } from "nookies";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const defaultTheme = createTheme();
+
 const Dashboard: NextPage = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -84,7 +61,6 @@ const Dashboard: NextPage = () => {
                 </Paper>
               </Grid>
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
       </Box>

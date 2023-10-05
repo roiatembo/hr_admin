@@ -18,48 +18,50 @@ export default function Filters() {
         noValidate
         sx={{ mt: 1, justifyContent: "center" }}
       >
+        {/* Status Select */}
         <FormControl size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Status</InputLabel>
+          <InputLabel id="status-label">Status</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value="status"
+            labelId="status-label"
+            id="status"
+            value={FilterOptions.Active}
             label="Status"
-            // onChange={handleChange}
           >
-            <MenuItem value={10}>Active Only</MenuItem>
-            <MenuItem value={20}>All</MenuItem>
-            <MenuItem value={30}>Deactive Only</MenuItem>
+            <MenuItem value={FilterOptions.Active}>Active Only</MenuItem>
+            <MenuItem value={FilterOptions.All}>All</MenuItem>
+            <MenuItem value={FilterOptions.Deactive}>Deactive Only</MenuItem>
           </Select>
         </FormControl>
+
+        {/* Department Select */}
         <FormControl sx={{ mt: 4 }} size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Department</InputLabel>
+          <InputLabel id="department-label">Department</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value="department"
+            labelId="department-label"
+            id="department"
+            value={Departments.HumanResources}
             label="Department"
-            // onChange={handleChange}
           >
-            <MenuItem value={10}>Active Only</MenuItem>
-            <MenuItem value={20}>All</MenuItem>
-            <MenuItem value={30}>Deactive Only</MenuItem>
+            <MenuItem value={Departments.HumanResources}>
+              Human Resources
+            </MenuItem>
           </Select>
         </FormControl>
+
+        {/* Manager Select */}
         <FormControl sx={{ mt: 4 }} size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Manager</InputLabel>
+          <InputLabel id="manager-label">Manager</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value="manager"
+            labelId="manager-label"
+            id="manager"
+            value={Managers.LilyParker}
             label="Manager"
-            // onChange={handleChange}
           >
-            <MenuItem value={10}>Active Only</MenuItem>
-            <MenuItem value={20}>All</MenuItem>
-            <MenuItem value={30}>Deactive Only</MenuItem>
+            <MenuItem value={Managers.LilyParker}>Lily Parker</MenuItem>
           </Select>
         </FormControl>
+
+        {/* Filter Button */}
         <Button
           sx={{ mt: 3 }}
           variant="contained"
@@ -70,4 +72,21 @@ export default function Filters() {
       </Box>
     </React.Fragment>
   );
+}
+
+// Enum definitions for better readability
+enum FilterOptions {
+  Active = "Active",
+  All = "All",
+  Deactive = "Deactive",
+}
+
+enum Departments {
+  HumanResources = "Human Resources",
+  // Add more departments as needed
+}
+
+enum Managers {
+  LilyParker = "Lily Parker",
+  // Add more managers as needed
 }

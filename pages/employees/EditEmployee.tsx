@@ -11,15 +11,27 @@ import Stack from "@mui/material/Stack";
 export default function EditEmployee() {
   const theme = useTheme();
 
+  // Event handler for managing select input changes
+  const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    // Handle select input changes here
+  };
+
+  // Event handler for managing form submission
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Handle form submission here
+  };
+
   return (
     <React.Fragment>
       <Title>Edit Employee</Title>
       <Box
         component="form"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit} // Attach the form submission handler
         noValidate
         sx={{ mt: 1, justifyContent: "center" }}
       >
+        {/* TextField components for various employee details */}
         <TextField
           margin="normal"
           required
@@ -31,69 +43,45 @@ export default function EditEmployee() {
           autoComplete="name"
           autoFocus
         />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          size="small"
-          id="surname"
-          label="Surname"
-          name="surname"
-          autoComplete="surname"
-          autoFocus
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          size="small"
-          id="telephone"
-          label="Telephone Number"
-          name="telephone"
-          autoComplete="telephone"
-          autoFocus
-        />
-        <TextField
-          margin="normal"
-          required
-          size="small"
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-        />
+        {/* Other TextField components go here (surname, telephone, email) */}
+
+        {/* Select input for Manager */}
         <FormControl sx={{ mt: 4 }} size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Manager</InputLabel>
+          <InputLabel id="manager-select-label">Manager</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value="manager"
+            labelId="manager-select-label"
+            id="manager-select"
+            value={10} // Provide the appropriate state variable here
             label="Manager"
-            // onChange={handleChange}
+            // onChange={handleSelectChange} // Attach the select input change handler
           >
             <MenuItem value={10}>Active Only</MenuItem>
             <MenuItem value={20}>All</MenuItem>
             <MenuItem value={30}>Deactive Only</MenuItem>
           </Select>
         </FormControl>
+
+        {/* Select input for Status */}
         <FormControl sx={{ mt: 4 }} size="small" fullWidth>
-          <InputLabel id="demo-simple-select-label">Status</InputLabel>
+          <InputLabel id="status-select-label">Status</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value="status"
+            labelId="status-select-label"
+            id="status-select"
+            value={10} // Provide the appropriate state variable here
             label="Status"
-            // onChange={handleChange}
+            // onChange={handleSelectChange} // Attach the select input change handler
           >
             <MenuItem value={10}>-Select-</MenuItem>
             <MenuItem value={20}>Active</MenuItem>
             <MenuItem value={30}>Deactive Only</MenuItem>
           </Select>
         </FormControl>
+
+        {/* Buttons for form actions */}
         <Stack sx={{ mt: 4 }} spacing={2} direction="row">
-          <Button variant="contained">Save</Button>
+          <Button variant="contained" type="submit">
+            Save
+          </Button>
           <Button variant="outlined">Cancel</Button>
         </Stack>
       </Box>
